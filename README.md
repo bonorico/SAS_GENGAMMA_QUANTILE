@@ -11,9 +11,9 @@ Often a different Gengamma parametrization is used which offers increased stabil
 Sometimes however we might want to use an existing regression model to predict unavailable survival times, or we might want to use the Gengamma quantile function flexibly for simulations purposes. In all such cases we need to write down the quantile functions in closed-form or have a viable method to perform the quantile operation. A quantile function for the stable Gengamma distribution is therefore needed.
 
 # Solution
-One can show that to solve this problem the missing step is to find the relationship between the original and stable Gengamma distribution. While not documented everywhere, one can show with some simple algebra that the (original)[https://www.jstor.org/stable/1268326] and stable Gengamma parametrizations are related as following (note the terminological conflicts):
+One can show that to solve this problem the missing step is to find the relationship between the original and stable Gengamma distribution. While not documented everywhere, one can show with some simple algebra that the original and stable Gengamma parametrizations are related as following (note the terminological conflicts):
 
-|Parameter    | Stable as in PROC LIFEREG     | Original (as in Lawless)  |
+|Parameter    | Stable as in PROC LIFEREG     | Original (as in [Lawless](https://www.jstor.org/stable/1268326))  |
 |-------------| ------------- | ------------- |
 |  scale ($\mu$ in SAS)          | $\mu = X\beta$  | $a = exp(\mu - log(k)/b)$  |
 |  free shape ($\delta$ in SAS)      |   $\delta$        | $k = \delta^{-2}$  |
@@ -22,8 +22,8 @@ One can show that to solve this problem the missing step is to find the relation
 Where $\beta$ is the  vector of coefficient and $X$ the design matrix in PROC LIFEREG.
 
 # Application
-Given the above relationship one can show that the original Gengamma desity is equal to the "standard" Gamma, $(\frac{x}{a})^b ~ G(k, 1)$ with shape = $k$ and scale = 1. It follows that we can analytically calculate a stable Gengamma quantile as 
+Given the above relationship one can show that the original Gengamma desity is equal to the "standard" Gamma, $(\frac{x}{a})^b \sim G(k, 1)$ with shape = $k$ and scale = 1. It follows that we can analytically calculate a stable Gengamma log quantile as 
 ```math
-q_p = exp \left( log(a) + \frac{1}{b} \cdot log\left( G_{k,1}^{-1}(p) \right)   \right)
+log(q_p) = log(a) + \frac{1}{b} \cdot log\left( G_{k,1}^{-1}(p) \right) 
 ```
-where typically the percentile $p = 0.5$.
+replacing $a$, $k$, and $b$ with the above definitions where $G_{k,1}^{-1}(p)$ is the inverse "standard" Gamma with parameters $k, 1$ and typically the percentile $p = 0.5$.
